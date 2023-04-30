@@ -1,4 +1,4 @@
-# Reddit Imgur Saver
+# Reddit Imgur Scraper
 This basic script uses the Reddit API to go through your **saved posts** and download any images/videos that are hosted on imgur
 * **!! This script currently is unable to download imgur galleries/albums, but provides links to all of these at the end of the program for manual backup !!**
 
