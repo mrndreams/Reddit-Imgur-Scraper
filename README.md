@@ -4,6 +4,7 @@ This basic script uses the Reddit API to go through your **saved posts** and dow
 
 ## Setup ##
 First go to https://www.reddit.com/prefs/apps and create an app
+
 ![image](https://user-images.githubusercontent.com/89144623/235378724-e4e65518-2d15-48f9-a6cb-52803209e904.png)
 
 **!! Make sure to select script !!** 
