@@ -95,7 +95,6 @@ count = 0
 
 # Open the file containing imgur links
 with open('imgur_links.txt', 'r') as f:
-    manuals = []
     # iterate over each link
     for link in f:
         # Remove any leading or trailing whitespace
@@ -103,7 +102,26 @@ with open('imgur_links.txt', 'r') as f:
         
         # Check if the link is a gallery
         if "/a/" in link or "/gallery/" in link:
-            manuals.append(link + "\n")
+            id = os.path.basename(link)
+            headers = { "Authorization": 'Client-ID b2452cf6b92f46b' } # i dont know how to secure my client id 
+            response = requests.request("GET", "https://api.imgur.com/3/album/" + id + "/images", headers=headers)
+
+            images = json.loads(response.content)["data"]
+
+            subdir = os.mkdir(new_folder_name + "/" + os.path.basename(link))
+
+            for image, i in zip(images, range(len(images))):
+                print(image["link"])
+                file_name = os.path.join(subdir, os.path.basename(image["link"]))
+                # Download the file
+                try:
+                    urllib.request.urlretrieve(image["link"], file_name)
+                    
+                    # Print a message indicating the file has been downloaded
+                    print(f"{file_name} downloaded successfully to {subdir}")
+                    count = count + 1
+                except Exception as e:
+                    print(f"Error downloading {link}: {e}")
             
         # If the link is not a gallery, assume it's an image or video
         else:
@@ -121,9 +139,12 @@ with open('imgur_links.txt', 'r') as f:
                 print(f"Error downloading {link}: {e}")
 
 print(f"{count} files were successfully downloaded.")
-if len(manuals) > 0:
-    print("-------------------------------------------------------------------------------------------------------------------------")
-    print("\n !! Since this program does not support downloading imgur galleries/albums, the following links need to be backed up manually !! \n")
-    print("-------------------------------------------------------------------------------------------------------------------------")
-    for link in manuals:
-        print(link)
+
+# Support for galleries is now added :)
+
+# if len(manuals) > 0:
+#     print("-------------------------------------------------------------------------------------------------------------------------")
+#     print("\n !! Since this program does not support downloading imgur galleries/albums, the following links need to be backed up manually !! \n")
+#     print("-------------------------------------------------------------------------------------------------------------------------")
+#     for link in manuals:
+#         print(link)
