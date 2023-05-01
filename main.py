@@ -108,7 +108,8 @@ with open('imgur_links.txt', 'r') as f:
 
             images = json.loads(response.content)["data"]
 
-            subdir = os.mkdir(new_folder_name + "/" + os.path.basename(link))
+            subdir = new_folder_name + "/" + os.path.basename(link)
+            os.mkdir(subdir)
 
             for image, i in zip(images, range(len(images))):
                 print(image["link"])
